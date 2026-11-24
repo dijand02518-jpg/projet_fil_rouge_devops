@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 400px;
   margin: 40px auto;
   background: white;
   padding: 24px;
@@ -13,39 +13,33 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.task-form {
+.form {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.task-form input {
-  flex: 1;
+.form input {
   padding: 8px;
 }
 
-.task-list {
-  list-style: none;
-  padding: 0;
+.form button {
+  padding: 8px;
+  cursor: pointer;
 }
 
-.task-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+.form .link {
+  background: none;
+  border: none;
+  color: #2563eb;
 }
 
-.task-list li span {
-  flex: 1;
+.error {
+  color: #b91c1c;
+  margin: 0;
 }
 
-.task-list li.done span {
-  text-decoration: line-through;
-  color: #999;
-}
-
-.empty {
-  color: #777;
+.success {
+  color: #15803d;
+  margin: 0;
 }
