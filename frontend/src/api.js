@@ -1,28 +1,23 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-export async function getTasks() {
-  const res = await fetch(`${API_URL}/tasks`);
-  return res.json();
-}
-
-export async function addTask(title) {
-  const res = await fetch(`${API_URL}/tasks`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title }),
+async function request(path, options = {}) {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
   });
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Erreur');
+  return data;
 }
 
-export async function updateTask(id, done) {
-  const res = await fetch(`${API_URL}/tasks/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ done }),
-  });
-  return res.json();
-}
-
-export async function deleteTask(id) {
-  await fetch(`${API_URL}/tasks/${id}`, { method: 'DELETE' });
-}
+export const register = (body) =>
+  request('/auth/register', { method: 'POST', body: JSON.stringify(body) });
+export const login = (body) =>
+  request('/auth/login', { method: 'POST', body: JSON.stringify(body) });
+export const getProfile = () => request('/profile');
+export const updateProfile = (body) =>
+  request('/profile', { method: 'PUT', body: JSON.stringify(body) });
